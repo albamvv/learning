@@ -1,0 +1,56 @@
+# Ignorar archivos innecesarios en Git
+
+
+# Entornos
+venv/
+env/
+botenv/
+*.venv/deactiva
+
+# Librerías instaladas con pip
+*/site-packages/
+
+# Python bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Archivos de compilación
+*.so
+*.dll
+*.dylib
+*.o
+*.a
+*.out
+*.class
+*.exe
+
+# Variables de entorno y credenciales
+.env
+*.env
+*.ini
+*.cfg
+config.yaml
+secrets.json
+
+# Logs y caché
+*.log
+logs/
+*.tmp
+
+# Bases de datos SQLite
+*.sqlite3
+*.db
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Archivos de Git
+*.swp
+*.swo
+*.orig
+.DS_Store
+Thumbs.db
+
+
