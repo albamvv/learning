@@ -1,7 +1,11 @@
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import torch
-from prompt import prompt1, prompt2,prompt3,prompt4,prompt5
+from prompt import prompt1, prompt2,prompt3,prompt4,prompt5,prompt6
 
+"""
+En este caso práctico, se propone al alumno la implementación de un modelo base que haya sido pre-entrenado (se recomienda T5) 
+y su comparación con el mismo modelo después de aplicarle Fine-tuning (se recomienda Flan-T5)
+"""
 
 '''
 T5Tokenizer: Para convertir texto en tokens que el modelo puede entender.
@@ -26,7 +30,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Tokenizamos el prompt
 #prompt_tokens = tokenizer_T5(prompt, return_tensors="pt").input_ids.to("cuda")
-prompt_tokens = tokenizer_T5(prompt, return_tensors="pt").input_ids.to(device)
+prompt_tokens = tokenizer_T5(prompt6, return_tensors="pt").input_ids.to(device)
 
 # Generamos los siguientes tokens
 outputs = model_T5.generate(prompt_tokens, max_length=100) # Coge el prompt que se le ha pasado y continua haciendo cosas pero no hace funciones
