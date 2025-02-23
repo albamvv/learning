@@ -3,11 +3,6 @@ import torch
 from prompt import prompt1, prompt2,prompt3,prompt4,prompt5,
 
 
-"""
-En este caso práctico, se propone al alumno la implementación de un modelo base que haya sido pre-entrenado (se recomienda T5) 
-y su comparación con el mismo modelo después de aplicarle Fine-tuning (se recomienda Flan-T5)
-"""
-
 '''
 1. Selección de un LLM base pre-entrenado
 '''

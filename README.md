@@ -1,14 +1,9 @@
-# Chatbot with FAISS and LLM  
+# Base LLM vs Fine TUned LLM
 
 ## 📌 Project Overview  
-This project implements a **chatbot** that uses a **vector database (FAISS)** and a **Large Language Model (LLM)** to answer user queries based on uploaded PDF documents.  
-The chatbot follows a **RAG (Retrieval-Augmented Generation) approach**, where it retrieves relevant documents from FAISS before generating responses.  
+In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
 
-## 🚀 Features  
-✅ **Retrieval-based Q&A** – Uses FAISS to find the most relevant documents.  
-✅ **LLM-powered responses** – Generates answers using a Large Language Model.  
-✅ **Session state management** – Stores chat history in Streamlit.  
-✅ **Custom prompts** – Uses a predefined template for more accurate responses.  
+
 
 ## 🛠️ Installation  
 
@@ -39,25 +34,11 @@ env\Scripts\activate  # En Windows
 ```bash  
 pip install -r requirements.txt 
 ```
-### 4️⃣ Run the chatbot 
-```bash 
-streamlit run bot.py
-```
-
-## 📂 Folder Structure
-📂 chatbot-faiss-llm \
-│── 📜 bot.py   # Main Streamlit application \
-│── 📜 retrieval.py   # Retrieval function using FAISS \
-│── 📜 llm_utils.py # Functions to interact with the LLM \
-│── 📜 graphs.py # Data visualization functions \
-│── 📜 imports.py # Centralized module imports \
-📂 data # Folder for uploaded PDF documents \
-📂 models # Stored FAISS index and LLM embeddings \
-│── 📜 requirements.txt # Python dependencies \
-│── 📜 README.md # Project documentation\
 
 
-## 📝 Usage
-✅ Upload one or more PDF documents.\
-✅ Ask questions related to the documents.\
-✅ The chatbot retrieves relevant content and generates an answer.\
+
+## 📝 Structure
+
+### 1️⃣ Selección de un LLM base pre-entrenado
+
+### 2️⃣ Selección de un Fine-tuned LLM
