@@ -1,6 +1,7 @@
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import torch
-from prompt import prompt1, prompt2,prompt3,prompt4,prompt5,prompt6
+from prompt import prompt1, prompt2,prompt3,prompt4,prompt5,
+
 
 """
 En este caso práctico, se propone al alumno la implementación de un modelo base que haya sido pre-entrenado (se recomienda T5) 
@@ -8,9 +9,15 @@ y su comparación con el mismo modelo después de aplicarle Fine-tuning (se reco
 """
 
 '''
+1. Selección de un LLM base pre-entrenado
+'''
+
+
+'''
 T5Tokenizer: Para convertir texto en tokens que el modelo puede entender.
 Se descarga y carga el tokenizador del modelo "t5-base" desde Hugging Face.
 Permite tokenizar (convertir texto en números) y detokenizar (convertir números en texto).
+Este LLM esta compuesto por 220 millones de parámetros y ha sido pre-entrenado en número elevado de conjuntos de datos:
 '''
 # Importamos el tokenizador
 tokenizer_T5 = T5Tokenizer.from_pretrained("t5-base") # LLM base preentrenado
@@ -42,3 +49,25 @@ Sólo presentan el comportamiento primitivo de un LLM, que es generar la siguien
 y continua generando palabras que en este caso coinciden en función del contexto con lo que se habia puesto anteriormente
 '''
 print(tokenizer_T5.decode(outputs[0]))
+
+
+'''
+2. Selección de un Fine-tuned LLM
+'''
+
+'''Lectura del modelo y tokenizador'''
+# Importamos el tokenizador
+tokenizer_FT5 = T5Tokenizer.from_pretrained("google/flan-t5-base")
+
+# Importamos el modelo pre-entrenado
+model_FT5 = T5ForConditionalGeneration.from_pretrained("google/flan-t5-base", device_map="auto")
+
+# Tokenizamos el prompt
+prompt_tokens = tokenizer_FT5(prompt, return_tensors="pt").input_ids.to("cuda")
+
+'''Generación de texto'''
+# Generamos los siguientes tokens
+outputs = model_FT5.generate(prompt_tokens, max_length=50)
+
+# Transformamos los tokens generados en texto
+print(tokenizer_FT5.decode(outputs[0]))
