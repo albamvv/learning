@@ -1,8 +1,11 @@
 # Base LLM vs Fine TUned LLM
 
 ## 📌 Project Overview  
-In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
 
+### 1️⃣ Base_LLM_vs_Fine_Tuned_LLM  
+In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
+### 2️⃣ Instruction_Fine_tuning_LLM_Base
+In this case study, the student is proposed to perform a fine-tuning instruction on the LLM Flan-T5-small in order to be able to summarize newspaper articles in Spanish.
 
 
 ## 🛠️ Installation  
