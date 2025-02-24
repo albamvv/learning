@@ -52,3 +52,7 @@ Este LLM esta compuesto por 220 millones de parámetros y ha sido pre-entrenado 
 En este caso práctico, vamos a hacer del modelo base Flan-T5 (google/flan-t5-base).
 
 Estos modelos se basan en T5 preentrenados (Raffel et al., 2020) y se les ha realizado fine-tuning para mejorar el rendimiento en más de 1.000 tareas adicionales y para soportar varios idiomas: https://huggingface.co/google/flan-t5-base#training-details
+
+### 3️⃣ Selection of a Fine-tuned LLM of 1 billion parameters
+
+En este último apartado vamos a hacer uso de Flan-T5-Large que tiene un total de 1.200 millones de parámetros: https://huggingface.co/google/flan-t5-large
