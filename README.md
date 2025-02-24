@@ -42,7 +42,10 @@ pip install -r requirements.txt
 
 ## 📝 Structure
 
-### 1️⃣ Selección de un LLM base pre-entrenado
+### 1️⃣ Base_LLM_vs_Fine_Tuned_LLM  
+In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
+
+#### 1️⃣ Selección de un LLM base pre-entrenado
 
 Tal y como hemos visto en secciones anteriores, existe una gran variedad de LLMs base que podemos utilizar: https://huggingface.co/models
 
