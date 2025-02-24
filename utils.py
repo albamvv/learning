@@ -1,3 +1,8 @@
+# Este código funcionará en CPU sin problemas. Si en el futuro activas CUDA, también lo usará automáticamente.
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#print(f"Usando: {device}")
+
+
 #### PROMPT BÁSICOS
 prompt1 = "My name"
 prompt2 = "Today is"
@@ -49,3 +54,23 @@ Sentiment: Positive
 Review: {review5}
 Sentiment:"""
 
+
+text1 = """Astrónomos detectaron una misteriosa ráfaga de ondas de radio que tardó \
+8.000 millones de años en llegar a la Tierra. La ráfaga rápida de radio es una de \
+las más distantes y energéticas jamás observadas. Las ráfagas rápidas de radio \
+(FRB, por sus siglas en inglés) son intensos estallidos de ondas de radio de \
+milisegundos de duración cuyo origen se desconoce. La primera FRB se descubrió \
+en 2007 y, desde entonces, se han detectado cientos de estos rápidos destellos \
+cósmicos procedentes de puntos distantes de todo el universo."""
+
+text2 = """"La Revolución Industrial, que tuvo lugar principalmente en el siglo XIX, \
+fue un período de grandes cambios tecnológicos, culturales y socioeconómicos que \
+transformó a las sociedades agrarias en sociedades industriales. Durante este tiempo, \
+hubo un cambio masivo de mano de obra de las granjas a las fábricas. Esto se debió a \
+la invención de nuevas máquinas que podían realizar tareas más rápido y eficientemente \
+que los humanos o los animales. Esta transición llevó a un aumento en la producción de \
+bienes, pero también tuvo consecuencias negativas, como la explotación \laboral y la \
+contaminación ambiental."""
+
+text3 = """"El telescopio Hubble, lanzado al espacio en 1990, ha proporcionado imágenes \
+impresionantes del universo y ha ayudado a los científicos a comprender mejor la cosmología."""

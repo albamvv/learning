@@ -67,6 +67,8 @@ En este último apartado vamos a hacer uso de Flan-T5-Large que tiene un total d
 
 #### 1. Behavior of Flan-T5-small without Fine-tuning
 
+https://huggingface.co/google/flan-t5-small
+
 #### 2. Selection and preparation of the data set
 #### 3. Model Fine tuning
 #### 4. Flan-T5 Fine-tuned text generation and evaluation

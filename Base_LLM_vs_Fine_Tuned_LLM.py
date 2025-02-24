@@ -1,31 +1,16 @@
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import torch
-from prompt import prompt1, prompt2,prompt3,prompt4,prompt5,prompt6
-
+from utils import device,prompt1, prompt2,prompt3,prompt4,prompt5,prompt6
 
 '''
 1. Selección de un LLM base pre-entrenado
 '''
-
-
 # Importamos el tokenizador
 tokenizer_T5 = T5Tokenizer.from_pretrained("t5-base") # LLM base preentrenado
-
-'''
-T5ForConditionalGeneration: Modelo preentrenado de T5, diseñado para generar texto en base a una entrada.
-Se carga el modelo T5-Base, con 220M de parámetros.
-device_map="auto" permite asignar automáticamente el modelo a GPU o CPU, dependiendo de la disponibilidad.
-'''
 # Importamos el modelo pre-entrenado
 model_T5 = T5ForConditionalGeneration.from_pretrained("t5-base", device_map="auto")
 
-# Este código funcionará en CPU sin problemas. Si en el futuro activas CUDA, también lo usará automáticamente.
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#print(f"Usando: {device}")
-
-
 # Tokenizamos el prompt
-#prompt_tokens = tokenizer_T5(prompt, return_tensors="pt").input_ids.to("cuda")
 prompt_tokens = tokenizer_T5(prompt1, return_tensors="pt").input_ids.to(device)
 
 # Generamos los siguientes tokens
