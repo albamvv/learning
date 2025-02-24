@@ -70,5 +70,34 @@ En este último apartado vamos a hacer uso de Flan-T5-Large que tiene un total d
 https://huggingface.co/google/flan-t5-small
 
 #### 2. Selection and preparation of the data set
+
+El conjunto de datos que vamos a utilizar para la realización del fine-tuning se corresponde con MLSUM.
+
+MLSUM es el primer conjunto de datos de resumen multilingüe a gran escala. Obtenido de periódicos en línea, contiene más de 1.5 millones de pares de artículo/resumen en cinco idiomas diferentes: francés, alemán, español, ruso y turco.
+
+Para más información: https://huggingface.co/datasets/mlsum
+
+### 1. Reading the data set
+### 2. Formatting the data set
+
+Tal y como hemos comentado en secciones anteriores, el conjunto de datos utilizado para aplicar instruction fine-tuning debe estar formado por ejemplos de entrenamiento de la siguiente forma:
+
+```bash 
+(prompt, completion)
+```
+Para formar el prompt debemos tener en cuenta los siguientes puntos:
+
+Debe indicarse una instrucción para que realice el modelo. Es habitual utilizar plantillas que proponen los desarrolladores de los LLM para diseñar nuestros ejemplos de entrenamiento: https://github.com/google-research/FLAN/blob/main/flan/v2/flan_templates_branched.py
+La plantilla que vamos a seleccionar es la siguiente:
+
+```bash 
+("Resume el siguiente articulo:\n\n{text}", "{summary}")
+```
+Para afinar modelos como FLAN-T5 en tareas conversacionales donde queramos preservar el contexto de la conversación, se adopta un enfoque basado en secuencias, donde la interacción entre los participantes de la conversación se estructura en una sola cadena. La pregunta y la respuesta suelen estar separadas por un token especial, como , , o simplemente utilizando un delimitador claro (ej: \n)
+```bash 
+("Conversación:\n[Usuario] ¿Cuál es la capital de Francia?\n[Asistente] La capital de Francia es París.\n[Usuario] ¿Y cuál es su río principal?\n
+```
+### 3. Tokenization of the data set
+
 #### 3. Model Fine tuning
 #### 4. Flan-T5 Fine-tuned text generation and evaluation
