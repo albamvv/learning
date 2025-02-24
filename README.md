@@ -95,9 +95,13 @@ La plantilla que vamos a seleccionar es la siguiente:
 ```
 Para afinar modelos como FLAN-T5 en tareas conversacionales donde queramos preservar el contexto de la conversación, se adopta un enfoque basado en secuencias, donde la interacción entre los participantes de la conversación se estructura en una sola cadena. La pregunta y la respuesta suelen estar separadas por un token especial, como , , o simplemente utilizando un delimitador claro (ej: \n)
 ```bash 
-("Conversación:\n[Usuario] ¿Cuál es la capital de Francia?\n[Asistente] La capital de Francia es París.\n[Usuario] ¿Y cuál es su río principal?\n
+"Conversación:\n[Usuario] ¿Cuál es la capital de Francia?\n[Asistente] La capital de Francia es París.\n[Usuario] ¿Y cuál es su río principal?\n
 ```
 ### 3. Tokenization of the data set
+
+Una de las cosas que comentabamos cuándo comenzamos a hablar de modelos generativos como la Redes Neuronales Recurrentes, es que este tipo de algoritmos, al igual que los LLMs, reciben secuencias del mismo tamaño.
+
+Con lo cual, al igual que hicimos en ese caso práctico al comienzo del curso, debemos obtener la secuencia más larga de nuestro conjunto de datos y realizar padding al resto de secuencias para que todas tengan el mismo tamaño.
 
 #### 3. Model Fine tuning
 #### 4. Flan-T5 Fine-tuned text generation and evaluation
