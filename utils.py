@@ -1,3 +1,5 @@
+import torch
+
 # Este código funcionará en CPU sin problemas. Si en el futuro activas CUDA, también lo usará automáticamente.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 #print(f"Usando: {device}")

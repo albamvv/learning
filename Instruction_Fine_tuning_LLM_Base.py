@@ -13,6 +13,7 @@ model_FT5 = T5ForConditionalGeneration.from_pretrained("google/flan-t5-small", d
 
 #Generación de texto
 prompt_template = f"Resume el siguiente articulo:\n\n{text1}"
+prompt_template = "translate English to German: How old are you?"
 
 # Tokenizamos el prompt
 prompt_tokens = tokenizer_FT5(prompt_template, return_tensors="pt").input_ids.to(device)
