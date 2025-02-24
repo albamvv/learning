@@ -26,7 +26,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Tokenizamos el prompt
 #prompt_tokens = tokenizer_T5(prompt, return_tensors="pt").input_ids.to("cuda")
-prompt_tokens = tokenizer_T5(prompt6, return_tensors="pt").input_ids.to(device)
+prompt_tokens = tokenizer_T5(prompt1, return_tensors="pt").input_ids.to(device)
 
 # Generamos los siguientes tokens
 outputs = model_T5.generate(prompt_tokens, max_length=100) # Coge el prompt que se le ha pasado y continua haciendo cosas pero no hace funciones
@@ -76,7 +76,7 @@ model_FT5 = T5ForConditionalGeneration.from_pretrained("google/flan-t5-large", d
 
 '''Generación de texto'''
 # Tokenizamos el prompt
-prompt_tokens = tokenizer_FT5(prompt, return_tensors="pt").input_ids.to("cuda")
+prompt_tokens = tokenizer_FT5(prompt1, return_tensors="pt").input_ids.to(device)
 
 # Generamos los siguientes tokens
 outputs = model_FT5.generate(prompt_tokens, max_length=100)
