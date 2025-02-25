@@ -104,4 +104,10 @@ Una de las cosas que comentabamos cuándo comenzamos a hablar de modelos generat
 Con lo cual, al igual que hicimos en ese caso práctico al comienzo del curso, debemos obtener la secuencia más larga de nuestro conjunto de datos y realizar padding al resto de secuencias para que todas tengan el mismo tamaño.
 
 #### 3. Model Fine tuning
+
+1. Lectura del modelo
+2. Evaluación durante el entrenamiento
+3. Lectura y adaptación de los datos para el entrenamiento
+4. Preparación y ejecución del fine-tuning (entrenamiento)
+
 #### 4. Flan-T5 Fine-tuned text generation and evaluation

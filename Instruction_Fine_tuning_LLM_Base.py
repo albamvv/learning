@@ -1,7 +1,11 @@
-from transformers import T5Tokenizer, T5ForConditionalGeneration,AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import T5Tokenizer, T5ForConditionalGeneration,AutoTokenizer, AutoModelForSeq2SeqLM,DataCollatorForSeq2Seq
 from utils import device,text1, text2,text3
-from datasets import load_dataset
-from datasets import concatenate_datasets
+from datasets import load_dataset,concatenate_datasets
+import evaluate
+import nltk
+import numpy as np
+from nltk.tokenize import sent_tokenize
+nltk.download("punkt")
 
 # Importamos el tokenizador
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
@@ -124,5 +128,100 @@ ds_tokens = ds.map(padding_tokenizer, batched=True, remove_columns=['text', 'sum
 
 
 ''' 3. Model Fine tuning'''
+
+#1. Lectura del modelo
+model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+
+#2. Evaluación durante el entrenamiento
+# Metrica de evaluación
+metric = evaluate.load("rouge")
+
+# Funciona auxiliar para preprocesar el texto
+def postprocess_text(preds, labels):
+    preds = [pred.strip() for pred in preds]
+    labels = [label.strip() for label in labels]
+
+    # rougeLSum espera una nueva línea después de cada frase
+    preds = ["\n".join(sent_tokenize(pred)) for pred in preds]
+    labels = ["\n".join(sent_tokenize(label)) for label in labels]
+
+    return preds, labels
+
+def compute_metrics(eval_preds):
+    preds, labels = eval_preds
+
+    if isinstance(preds, tuple):
+        preds = preds[0]
+
+    decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
+
+    # Reemplazamos -100 en las etiquetas porque no podemos decodificarlo
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+
+    # Preprocesamos el texto
+    decoded_preds, decoded_labels = postprocess_text(decoded_preds, decoded_labels)
+    result = metric.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
+    result = {k: round(v * 100, 4) for k, v in result.items()}
+    prediction_lens = [np.count_nonzero(pred != tokenizer.pad_token_id) for pred in preds]
+    result["gen_len"] = np.mean(prediction_lens)
+    return result
+
+
+#3. Lectura y adaptación de los datos para el entrenamiento
+
+# Ignoramos los tokens relacionados con el padding durante el proceso de entrenamiento para los prompts
+label_pad_token_id = -100
+
+# Recolector de datos para el entrenamiento del modelo
+data_collator = DataCollatorForSeq2Seq(
+    tokenizer,
+    model=model,
+    label_pad_token_id=label_pad_token_id,
+    pad_to_multiple_of=8
+)
+
+#4. Preparación y ejecución del fine-tuning (entrenamiento)
+
+from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
+
+REPOSITORY="/content/drive/MyDrive/flan-t5-small-fine-tuned"
+
+# Definimos las opciones del entrenamiento
+training_args = Seq2SeqTrainingArguments(
+    # Hiperprámetros del entrenamiento
+    output_dir=REPOSITORY,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    predict_with_generate=True,
+    fp16=False,  # Overflows with fp16
+    learning_rate=5e-5,
+    num_train_epochs=4,
+    # Estrategias de logging y evaluación
+    logging_dir=f"{REPOSITORY}/logs",
+    logging_strategy="steps",
+    logging_steps=500,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    save_total_limit=2,
+    load_best_model_at_end=True,
+)
+
+# Creamos la instancia de entrenamiento
+trainer = Seq2SeqTrainer(
+    model=model,
+    args=training_args,
+    data_collator=data_collator,
+    train_dataset=ds_tokens["train"],
+    eval_dataset=ds_tokens["validation"],
+    compute_metrics=compute_metrics,
+)
+
+# Guardamos el tokenizador en disco para utilizarlo posteriormente
+tokenizer.save_pretrained(f"{REPOSITORY}/tokenizer")
+
+# Iniciamos el entrenamiento
+trainer.train()
+
 ''' 4. Flan-T5 Fine-tuned text generation and evaluation'''
 
