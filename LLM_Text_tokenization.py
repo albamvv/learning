@@ -3,10 +3,12 @@ from transformers import AutoTokenizer,AutoModelForCausalLM
 import torch
 
 '''
-Llamar al modelo directamente¿Qué hace?
---- NO genera texto, sino que devuelve las logits del modelo.
---- Usado para análisis del modelo, como calcular probabilidades de los siguientes tokens.
---- Es útil para entrenar modelos o analizar sus predicciones manualmente.
+The script loads the GPT-2 model and tokenizer, tokenizes a given input sentence, 
+and processes it through the model to obtain raw logits, which represent the probabilities of possible next tokens. 
+Instead of generating full text, it analyzes these logits to determine the most likely next token. 
+It also extracts and displays the top ten predicted tokens along with their probabilities, 
+making it useful for understanding how the model ranks different token predictions 
+and how it assigns likelihoods to various continuations of a given text.
 '''
 
 # Load the GPT-2 tokenizer and the GPT-2 language model
@@ -35,22 +37,28 @@ output = gpt2(input_ids)
 # Los logits son valores sin procesar que indican la probabilidad de cada token.
 # Son un tensor de 3 dimensiones con tamaño (batch, tokens, vocabulario).
 # Se convierten en probabilidades con softmax para predecir la siguiente palabra.
-print('output tensor shape-> ', output.logits.shape) 
+#print('output tensor shape-> ', output.logits.shape) 
 #print('logits-> ',output.logits)
 #print('output logic: ',output.logits)
 final_logits = gpt2(input_ids).logits[0,-1] 
 #print('final logits-> ',final_logits)
 
+# NEXT TOKEN
 print("Input text->", tokenizer.decode(input_ids[0]))
-
-print(final_logits.argmax()) # Token ID <--> Index Location Logits
+#print(final_logits.argmax()) # Token ID <--> Index Location Logits
 next_token= tokenizer.decode(final_logits.argmax())
-print('next token-> ',next_token)
+#print('next token-> ',next_token)
 
 # TOP TEN PREDICTIONS
 top_10_logits = torch.topk(final_logits,10)
-for index in top_10_logits.indices:
-    print(tokenizer.decode(index))
+#for index in top_10_logits.indices:
+#    print(tokenizer.decode(index))
+
+# TOP TEN PREDICTIONS PROBABILITY
+top10 =torch.topk(final_logits.softmax(dim=0),10)
+for value, index in zip(top10.values, top10.indices):
+    print(f"{tokenizer.decode(index)} -- {value.item():.1%}")
+
 
 
 #next_token = torch.argmax(output.logits[:, -1, :], dim=-1)
