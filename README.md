@@ -83,10 +83,11 @@ In this case study, we will make the base model Flan-T5 (google/flan-t5-base).
 
 These models are based on pre-trained T5 (Raffel et al., 2020) and have been fine-tuned to improve performance on over 1,000 additional tasks and to support multiple languages: https://huggingface.co/google/flan-t5-base#training-details
 
--Loads a tokenizer and model from the google/flan-t5-base checkpoint.
--Tokenizes the same prompt.
--Generates text based on fine-tuned knowledge (e.g., question answering).
--Prints the generated output.
+- Loads a tokenizer and model from the google/flan-t5-base checkpoint.
+- Tokenizes the same prompt.
+- Generates text based on fine-tuned knowledge (e.g., question answering).
+- Prints the generated output.
+
 
 #### 3. Selection of a Fine-tuned LLM of 1 billion parameters
 
