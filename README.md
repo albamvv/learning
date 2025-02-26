@@ -1,11 +1,19 @@
-# Base LLM vs Fine TUned LLM
+# Differents proyects using Hugging Face
 
-## 📌 Project Overview  
+## 📌 Projects Overview  
+
+### 1️⃣ LLM Traslate
+The script loads a pretrained language model, tokenizes an input text prompt for translation, 
+and generates a response using the model. It then decodes and prints the generated output.
+
+https://huggingface.co/ModelSpace/GemmaX2-28-2B-v0.1
 
 ### 1️⃣ Base_LLM_vs_Fine_Tuned_LLM  
 In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
 ### 2️⃣ Instruction_Fine_tuning_LLM_Base
 In this case study, the student is proposed to perform a fine-tuning instruction on the LLM Flan-T5-small in order to be able to summarize newspaper articles in Spanish.
+
+
 
 
 ## 🛠️ Installation  
