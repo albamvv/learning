@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ## 📝 Structure
 
-### 1️⃣ Base_LLM_vs_Fine_Tuned_LLM  
+### 4️⃣ Base_LLM_vs_Fine_Tuned_LLM    
 In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
 
 #### 1. Selección de un LLM base pre-entrenado
@@ -87,7 +87,7 @@ Estos modelos se basan en T5 preentrenados (Raffel et al., 2020) y se les ha rea
 
 En este último apartado vamos a hacer uso de Flan-T5-Large que tiene un total de 1.200 millones de parámetros: https://huggingface.co/google/flan-t5-large
 
-### 2️⃣ Instruction_Fine_tuning_LLM_Base
+### 5️⃣ Instruction_Fine_tuning_LLM_Base
 
 #### 1. Behavior of Flan-T5-small without Fine-tuning
 
