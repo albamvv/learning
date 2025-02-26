@@ -8,17 +8,23 @@ and generates a response using the model. It then decodes and prints the generat
 
 https://huggingface.co/ModelSpace/GemmaX2-28-2B-v0.1
 
-### 2️⃣ Text tokenization
+### 2️⃣ LLM Text tokenization
 The script loads the GPT-2 model and tokenizer, tokenizes a given input sentence, and processes it through the model to obtain raw logits,
 which represent the probabilities of possible next tokens. Instead of generating full text, it analyzes these logits to determine the most likely next token. 
 It also extracts and displays the top ten predicted tokens along with their probabilities, 
 making it useful for understanding how the model ranks different token predictions 
 and how it assigns likelihoods to various continuations of a given text.
 
-### 1️⃣ Base_LLM_vs_Fine_Tuned_LLM  
+### 3️⃣ LLM Generate Text 
+
+### 4️⃣ Base_LLM_vs_Fine_Tuned_LLM   
 In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
-### 2️⃣ Instruction_Fine_tuning_LLM_Base
+
+### 5️⃣ Instruction_Fine_tuning_LLM_Base
 In this case study, the student is proposed to perform a fine-tuning instruction on the LLM Flan-T5-small in order to be able to summarize newspaper articles in Spanish.
+
+### 6️⃣  xxxxxxx  
+### 7️⃣   xxxxxxxx
 
 
 
