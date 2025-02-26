@@ -1,38 +1,35 @@
-from transformers import T5Tokenizer, T5ForConditionalGeneration,AutoTokenizer, AutoModelForSeq2SeqLM,DataCollatorForSeq2Seq
+from imports import *
 from utils import device,text1, text2,text3
-from datasets import load_dataset,concatenate_datasets
-import evaluate
-import nltk
-import numpy as np
-from nltk.tokenize import sent_tokenize
+# Download necessary NLP resources
 nltk.download("punkt")
 
-# Importamos el tokenizador
+# Load the tokenizer for Flan-T5-small model
 tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
 
 
-'''1. Behavior of Flan-T5-small without Fine-tuning''' 
+### ------------------------ 1. Behavior of Flan-T5-small without Fine-tuning -------------------------------- ########
 
-### Lectura del modelo 
-# Importamos el modelo pre-entrenado
+# Load the pre-trained model with automatic device mapping
 model_FT5 = T5ForConditionalGeneration.from_pretrained("google/flan-t5-small", device_map="auto")
 
-#Generación de texto
+# Define a prompt template for text summarization
 prompt_template = f"Resume el siguiente articulo:\n\n{text3}"
 #prompt_template = "translate English to German: How old are you?"
 
-# Tokenizamos el prompt
+# Tokenize the prompt 
 prompt_tokens = tokenizer(prompt_template, return_tensors="pt").input_ids.to(device)
 
-# Generamos los siguientes tokens
+# Generate output tokens based on the model's prediction
 outputs = model_FT5.generate(prompt_tokens, max_length=200)
 
-# Transformamos los tokens generados en texto
+# Decode and print the generated text
 #print(tokenizer_FT5.decode(outputs[0]))
 
-''' 2. Selection and preparation of the data set'''
 
-### 1. Reading the data set
+
+### ------------------------ 2. Selection and preparation of the dataset -------------------------------- ########
+
+# Load the MLSUM dataset in Spanish
 ds = load_dataset("mlsum", 'es',trust_remote_code=True)
 #print(ds)
 # Mostramos un ejemplo del subconjunto de datos de entrenamiento
@@ -40,25 +37,19 @@ ds = load_dataset("mlsum", 'es',trust_remote_code=True)
 # Mostramos el resumen correspondiente al ejemplo anterior
 #print(ds["train"]["summary"][10]) # Muestra el resumen correspondiente al décimo artículo.
 
-### 2. Formatting the data set
-
-# Reducimos el conjunto de datos
+# Reduce dataset size for training, validation, and testing
 NUM_EJ_TRAIN = 1500
 NUM_EJ_VAL = 500
 NUM_EJ_TEST = 200
 
-# Subconjunto de entrenamiento
 ds['train'] = ds['train'].select(range(NUM_EJ_TRAIN))
-# Subconjunto de validación
 ds['validation'] = ds['validation'].select(range(NUM_EJ_VAL))
-# Subconjunto de pruebas
 ds['test'] = ds['test'].select(range(NUM_EJ_TEST))
 
 #print("ds-->  ",ds)
 # features: ['text', 'summary', 'topic', 'url', 'title', 'date'],
 
-#Pre-procesamos el conjunto de datos para aplicar la plantilla seleccionada anteriormente.
-# Se añade el campo "prompt"
+# Preprocessing function to format dataset entries
 def parse_dataset(ejemplo):
   """Procesa los ejemplos para adaptarlos a la plantilla."""
   return {"prompt": f"Resume el siguiente articulo:\n\n{ejemplo['text']}"}
@@ -77,41 +68,40 @@ print("-----------------------------")
 print(ds["train"]["text"][10])
 '''
 
+### ------------------------ 3. Tokenization of the dataset -------------------------------- ########
 
-### 3. Tokenization of the data set
-
-# Calculamos el tamaño máximo de prompt
+# Tokenize the prompts and truncate them if needed
 #Paso 1: Junta (concatena) los datos de entrenamiento, validación y prueba en un solo conjunto de datos.
 #Paso 2: Tokeniza los textos de la columna "prompt" y los trunca si son demasiado largos.
 prompts_tokens = concatenate_datasets([ds["train"], ds["validation"], ds["test"]]).map(lambda x: tokenizer(x["prompt"], truncation=True), batched=True) # Va a truncar en 512 que es el tamaño máximo para este modelo
 #print('prompts_tokens--> ',prompts_tokens) # features: ['text', 'summary', 'topic', 'url', 'title', 'date', 'prompt', 'input_ids', 'attention_mask']
 # input_ids → Son los números que representan cada palabra/token
-max_token_len = max([len(x) for x in prompts_tokens["input_ids"]])
-print(f"Maximo tamaño de prompt: {max_token_len}")
 
-# Calculamos el tamaño máximo de completion
-# Se realiza lo mismo pero para los resumenes
+# Compute the maximum token length for prompts
+max_token_len = max([len(x) for x in prompts_tokens["input_ids"]])
+#print(f"Maximo tamaño de prompt: {max_token_len}")
+
+# Tokenize the summaries (targets) and truncate them
 completions_tokens = concatenate_datasets([ds["train"], ds["validation"], ds["test"]]).map(lambda x: tokenizer(x["summary"], truncation=True), batched=True)
 #print("completion tokens--> ",completions_tokens) # features: ['text', 'summary', 'topic', 'url', 'title', 'date', 'prompt', 'input_ids', 'attention_mask']
-max_completion_len = max([len(x) for x in completions_tokens["input_ids"]])
-print(f"Maximo tamaño de completion: {max_completion_len}")
 
+# Compute the maximum token length for summaries
+max_completion_len = max([len(x) for x in completions_tokens["input_ids"]])
+#print(f"Maximo tamaño de completion: {max_completion_len}")
+
+# Function to tokenize and format dataset with padding
 def padding_tokenizer(datos):
-    '''
-    Tokeniza los "prompts" (entradas) y los "summaries" (resúmenes) con padding y truncamiento.
-    Asegura que todos los textos tengan el mismo tamaño (max_token_len para prompts y max_completion_len para resúmenes).
-    Sustituye los tokens de padding en las etiquetas (labels) por -100, para que el modelo ignore esos valores durante el entrenamiento.
-    '''
-    # Tokenizar inputs (prompts), vamos a tener todos los prompts tokenizados
+    """
+    Tokenizes prompts and summaries with padding and truncation,
+    ensuring all have the same size. Padding tokens are replaced with -100
+    so the model ignores them during training.
+    """
     model_inputs = tokenizer(datos['prompt'], max_length=max_token_len, padding="max_length", truncation=True)
-    # Tokenizar labels (completions), vamos a tokenizar las etiquetas
     model_labels = tokenizer(datos['summary'], max_length=max_completion_len, padding="max_length", truncation=True)
     #print("model labels--> ",model_labels)
 
-    # Sustituimos el caracter de padding de las completion por -100 para que no se tenga en cuenta en el entrenamiento
-    # Porque en entrenamiento, los modelos de Hugging Face ignoran los -100.
+    # Replace padding tokens with -100 for the labels
     model_labels["input_ids"] = [[(l if l != tokenizer.pad_token_id else -100) for l in label] for label in model_labels["input_ids"]]
-    # Guarda los tokens modificados en labels para que el modelo aprenda a predecirlos.
     model_inputs['labels'] = model_labels["input_ids"]
 
     return model_inputs
@@ -127,13 +117,12 @@ ds_tokens = ds.map(padding_tokenizer, batched=True, remove_columns=['text', 'sum
 #print("labels--> ",ds_tokens["train"]["labels"][10])
 
 
-''' 3. Model Fine tuning'''
+### ------------------------ 4. Model Fine-tuning -------------------------------- ########
 
-#1. Lectura del modelo
+# Load the model
 model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
 
-#2. Evaluación durante el entrenamiento
-# Metrica de evaluación
+# Load ROUGE metric for evaluation
 metric = evaluate.load("rouge")
 
 # Funciona auxiliar para preprocesar el texto
@@ -173,7 +162,7 @@ def compute_metrics(eval_preds):
 # Ignoramos los tokens relacionados con el padding durante el proceso de entrenamiento para los prompts
 label_pad_token_id = -100
 
-# Recolector de datos para el entrenamiento del modelo
+# Data collator to manage batch processing during training
 data_collator = DataCollatorForSeq2Seq(
     tokenizer,
     model=model,
@@ -223,5 +212,5 @@ tokenizer.save_pretrained(f"{REPOSITORY}/tokenizer")
 # Iniciamos el entrenamiento
 trainer.train()
 
-''' 4. Flan-T5 Fine-tuned text generation and evaluation'''
+### ------------------------ 5. Fine-tuned model text generation and evaluation -------------------------------- ########
 
