@@ -1,11 +1,8 @@
-# Import the necessary modules from the transformers library
-from transformers import AutoTokenizer,AutoModelForCausalLM 
-import torch
+from imports import *
 
 '''
-The script loads the GPT-2 model and tokenizer, tokenizes a given input sentence, 
-and processes it through the model to obtain raw logits, which represent the probabilities of possible next tokens. 
-Instead of generating full text, it analyzes these logits to determine the most likely next token. 
+The script loads the GPT-2 model and tokenizer, tokenizes a given input sentence, and processes it through the model to obtain raw logits,
+which represent the probabilities of possible next tokens. Instead of generating full text, it analyzes these logits to determine the most likely next token. 
 It also extracts and displays the top ten predicted tokens along with their probabilities, 
 making it useful for understanding how the model ranks different token predictions 
 and how it assigns likelihoods to various continuations of a given text.
@@ -28,7 +25,6 @@ input_ids = tokenizer(sentence, return_tensors='pt').input_ids
 # Loop through each token ID in the tensor and decode it back to a string
 #for token_id in input_ids[0]:  
 #    print(tokenizer.decode(token_id))  # Print the corresponding token  
-
 
 # Pass the tokenized input to the model to obtain output logits, Devuelve logits con las probabilidades de cada token.
 output = gpt2(input_ids)  

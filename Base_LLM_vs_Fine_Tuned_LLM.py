@@ -1,6 +1,5 @@
-from transformers import T5Tokenizer, T5ForConditionalGeneration
-import torch
 from utils import device,prompt1, prompt2,prompt3,prompt4,prompt5,prompt6
+from imports import *
 
 '''
 1. Selección de un LLM base pre-entrenado
