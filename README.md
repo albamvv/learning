@@ -111,8 +111,8 @@ MLSUM es el primer conjunto de datos de resumen multilingüe a gran escala. Obte
 
 Para más información: https://huggingface.co/datasets/mlsum
 
-### 1. Reading the data set
-### 2. Formatting the data set
+##### 1. Reading the data set
+##### 2. Formatting the data set
 
 Tal y como hemos comentado en secciones anteriores, el conjunto de datos utilizado para aplicar instruction fine-tuning debe estar formado por ejemplos de entrenamiento de la siguiente forma:
 
@@ -131,7 +131,7 @@ Para afinar modelos como FLAN-T5 en tareas conversacionales donde queramos prese
 ```bash 
 "Conversación:\n[Usuario] ¿Cuál es la capital de Francia?\n[Asistente] La capital de Francia es París.\n[Usuario] ¿Y cuál es su río principal?\n
 ```
-### 3. Tokenization of the data set
+##### 3. Tokenization of the data set
 
 Una de las cosas que comentabamos cuándo comenzamos a hablar de modelos generativos como la Redes Neuronales Recurrentes, es que este tipo de algoritmos, al igual que los LLMs, reciben secuencias del mismo tamaño.
 
