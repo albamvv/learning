@@ -72,7 +72,6 @@ In this case study, we are going to use the base model T5 (https://huggingface.c
 
 In this example we present the behavior of a base LLM, they have not been trained for any specific task, neither for conversation, nor for answering questions. They only present the primitive behavior of a LLM, which is to generate the next word, from the prompt that is indicated to it, it generates the next word, and continues generating words that in this case coincide in function of the context with what had been previously put.
 
-Translated with DeepL.com (free version)
 
 ---Loads a tokenizer and model from the t5-base checkpoint.
 ---Tokenizes a given prompt.
@@ -84,10 +83,10 @@ In this case study, we will make the base model Flan-T5 (google/flan-t5-base).
 
 These models are based on pre-trained T5 (Raffel et al., 2020) and have been fine-tuned to improve performance on over 1,000 additional tasks and to support multiple languages: https://huggingface.co/google/flan-t5-base#training-details
 
----Loads a tokenizer and model from the google/flan-t5-base checkpoint.
----Tokenizes the same prompt.
----Generates text based on fine-tuned knowledge (e.g., question answering).
----Prints the generated output.
+-Loads a tokenizer and model from the google/flan-t5-base checkpoint.
+-Tokenizes the same prompt.
+-Generates text based on fine-tuned knowledge (e.g., question answering).
+-Prints the generated output.
 
 #### 3. Selection of a Fine-tuned LLM of 1 billion parameters
 
