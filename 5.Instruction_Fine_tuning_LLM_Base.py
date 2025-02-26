@@ -3,11 +3,10 @@ from utils import device,text1, text2,text3
 # Download necessary NLP resources
 nltk.download("punkt")
 
-# Load the tokenizer for Flan-T5-small model
-tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
-
 
 ### ------------------------ 1. Behavior of Flan-T5-small without Fine-tuning -------------------------------- ########
+# Load the tokenizer for Flan-T5-small model
+tokenizer_FT5 = T5Tokenizer.from_pretrained("google/flan-t5-small")
 
 # Load the pre-trained model with automatic device mapping
 model_FT5 = T5ForConditionalGeneration.from_pretrained("google/flan-t5-small", device_map="auto")
@@ -17,15 +16,16 @@ prompt_template = f"Resume el siguiente articulo:\n\n{text3}"
 #prompt_template = "translate English to German: How old are you?"
 
 # Tokenize the prompt 
-prompt_tokens = tokenizer(prompt_template, return_tensors="pt").input_ids.to(device)
+prompt_tokens = tokenizer_FT5(prompt_template, return_tensors="pt").input_ids.to(device)
 
 # Generate output tokens based on the model's prediction
 outputs = model_FT5.generate(prompt_tokens, max_length=200)
 
 # Decode and print the generated text
-#print(tokenizer_FT5.decode(outputs[0]))
+print("Generated text-> ",tokenizer_FT5.decode(outputs[0]))
 
 
+'''
 
 ### ------------------------ 2. Selection and preparation of the dataset -------------------------------- ########
 
@@ -62,10 +62,10 @@ ds["test"] = ds["test"].map(parse_dataset)
 #features: ['text', 'summary', 'topic', 'url', 'title', 'date', 'prompt']
 
 '''
-print("-----------------------------")
-print(ds["train"]["prompt"][10])
-print("-----------------------------")
-print(ds["train"]["text"][10])
+#print("-----------------------------")
+#print(ds["train"]["prompt"][10])
+#print("-----------------------------")
+#print(ds["train"]["text"][10])
 '''
 
 ### ------------------------ 3. Tokenization of the dataset -------------------------------- ########
@@ -108,9 +108,9 @@ def padding_tokenizer(datos):
 
 ds_tokens = ds.map(padding_tokenizer, batched=True, remove_columns=['text', 'summary', 'topic', 'url', 'title', 'date', 'prompt'])
 '''
-    'input_ids': [3, 456, 789, 1, 0, 0, 0, 0, 0, 0],  # Prompt tokenizado
-    'attention_mask': [1, 1, 1, 1, 0, 0, 0, 0, 0, 0], # Máscara de atención
-    'labels': [3, 678, 890, 1, -100, -100, -100, -100, -100, -100] # Summary tokenizado con -100 en padding
+    #'input_ids': [3, 456, 789, 1, 0, 0, 0, 0, 0, 0],  # Prompt tokenizado
+   # 'attention_mask': [1, 1, 1, 1, 0, 0, 0, 0, 0, 0], # Máscara de atención
+   # 'labels': [3, 678, 890, 1, -100, -100, -100, -100, -100, -100] # Summary tokenizado con -100 en padding
 '''
 #print(ds_tokens)
 #print("input ids--> ",ds_tokens["train"]["input_ids"][10])
@@ -214,3 +214,4 @@ trainer.train()
 
 ### ------------------------ 5. Fine-tuned model text generation and evaluation -------------------------------- ########
 
+'''
