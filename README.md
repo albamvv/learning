@@ -19,8 +19,7 @@ and how it assigns likelihoods to various continuations of a given text.
 This Python script generates text using a GPT-2 language model. It first tokenizes an input sentence, converts it into tensor format, and then generates new text using the model’s generate() function. The generated text is then decoded back into a readable format. Additionally, the script uses the Hugging Face pipeline for text generation with the openai-community/gpt2 model.
 
 ### 4️⃣ Base_LLM_vs_Fine_Tuned_LLM   
-In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
-
+The script compares three LLMs: a base model (t5-base), a fine-tuned model (google/flan-t5-base), and a larger fine-tuned model (google/flan-t5-large). It loads each model and its tokenizer, tokenizes a given prompt, and generates text. The base model produces general text, while the fine-tuned models specialize in tasks like question answering. The larger fine-tuned model has more parameters, improving performance. Outputs from each model are printed for comparison. The script highlights differences in text generation between pre-trained and fine-tuned models, showing the impact of fine-tuning and model size.
 ### 5️⃣ Instruction_Fine_tuning_LLM_Base
 In this case study, the student is proposed to perform a fine-tuning instruction on the LLM Flan-T5-small in order to be able to summarize newspaper articles in Spanish.
 
@@ -74,6 +73,9 @@ Tal y como hemos visto en secciones anteriores, existe una gran variedad de LLMs
 En este caso práctico, vamos a hacer del modelo base T5 (https://huggingface.co/t5-base).
 
 Este LLM esta compuesto por 220 millones de parámetros y ha sido pre-entrenado en número elevado de conjuntos de datos: https://huggingface.co/t5-base#training-details
+
+En este ejemplo se presenta el comportamiento de un LLM base, no han sido entrenados para ninguna tarea especifica, ni para conversacion, ni para responder preguntas. Sólo presentan el comportamiento primitivo de un LLM, que es generar la siguiente palabra, a partir del prompt que se le indica genera la siguiente palabra,
+y continua generando palabras que en este caso coinciden en función del contexto con lo que se habia puesto anteriormente
 
 #### 2. Selección de un Fine-tuned LLM
 
