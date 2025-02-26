@@ -72,11 +72,10 @@ In this case study, we are going to use the base model T5 (https://huggingface.c
 
 In this example we present the behavior of a base LLM, they have not been trained for any specific task, neither for conversation, nor for answering questions. They only present the primitive behavior of a LLM, which is to generate the next word, from the prompt that is indicated to it, it generates the next word, and continues generating words that in this case coincide in function of the context with what had been previously put.
 
-
----Loads a tokenizer and model from the t5-base checkpoint.
----Tokenizes a given prompt.
----Generates text without any fine-tuning (general-purpose text generation).
----Prints the generated output.
+- Loads a tokenizer and model from the t5-base checkpoint.
+- Tokenizes a given prompt.
+- Generates text without any fine-tuning (general-purpose text generation).
+- Prints the generated output.
 
 #### 2. Selección de un Fine-tuned LLM
 In this case study, we will make the base model Flan-T5 (google/flan-t5-base).
@@ -93,10 +92,10 @@ These models are based on pre-trained T5 (Raffel et al., 2020) and have been fin
 
 In this last section we will make use of Flan-T5-Large, which has a total of 1.2 billion parameters: https://huggingface.co/google/flan-t5-large.
 
----Loads a tokenizer and model from the google/flan-t5-large checkpoint.
----Tokenizes the same prompt.
----Generates text using the larger fine-tuned model with more parameters.
----Prints the generated output.
+- Loads a tokenizer and model from the google/flan-t5-large checkpoint.
+- Tokenizes the same prompt.
+- Generates text using the larger fine-tuned model with more parameters.
+- Prints the generated output.
 
 ### 5️⃣ Instruction_Fine_tuning_LLM_Base
 
