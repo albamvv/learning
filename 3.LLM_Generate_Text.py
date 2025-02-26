@@ -1,6 +1,11 @@
 from imports import *
 
 '''
+This Python script generates text using a GPT-2 language model. It first tokenizes an input sentence, 
+converts it into tensor format, and then generates new text using the model’s generate() function. 
+The generated text is then decoded back into a readable format. Additionally, 
+the script uses the Hugging Face pipeline for text generation with the openai-community/gpt2 model.
+-----------------------------------
 Generacion de texto ¿Qué hace?
 --- Usa generate() para crear texto nuevo a partir de input_ids.
 --- Autoregresivo: Predice token por token hasta max_length=50 o hasta un token de finalización.

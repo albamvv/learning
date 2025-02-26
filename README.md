@@ -16,6 +16,7 @@ making it useful for understanding how the model ranks different token predictio
 and how it assigns likelihoods to various continuations of a given text.
 
 ### 3️⃣ LLM Generate Text 
+This Python script generates text using a GPT-2 language model. It first tokenizes an input sentence, converts it into tensor format, and then generates new text using the model’s generate() function. The generated text is then decoded back into a readable format. Additionally, the script uses the Hugging Face pipeline for text generation with the openai-community/gpt2 model.
 
 ### 4️⃣ Base_LLM_vs_Fine_Tuned_LLM   
 In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
