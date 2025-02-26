@@ -66,26 +66,37 @@ pip install -r requirements.txt
 ### 4️⃣ Base_LLM_vs_Fine_Tuned_LLM    
 In this case study, the student is asked to implement a pre-trained base model (T5 is recommended) and compare it with the same model after applying fine-tuning (Flan-T5 is recommended).
 
-#### 1. Selección de un LLM base pre-entrenado
+#### 1. Base Pre-trained LLM (t5-base)
 
-Tal y como hemos visto en secciones anteriores, existe una gran variedad de LLMs base que podemos utilizar: https://huggingface.co/models
+In this case study, we are going to use the base model T5 (https://huggingface.co/t5-base). This LLM is composed of 220 million parameters and has been pre-trained on a large number of datasets: https://huggingface.co/t5-base#training-details.
 
-En este caso práctico, vamos a hacer del modelo base T5 (https://huggingface.co/t5-base).
+In this example we present the behavior of a base LLM, they have not been trained for any specific task, neither for conversation, nor for answering questions. They only present the primitive behavior of a LLM, which is to generate the next word, from the prompt that is indicated to it, it generates the next word, and continues generating words that in this case coincide in function of the context with what had been previously put.
 
-Este LLM esta compuesto por 220 millones de parámetros y ha sido pre-entrenado en número elevado de conjuntos de datos: https://huggingface.co/t5-base#training-details
+Translated with DeepL.com (free version)
 
-En este ejemplo se presenta el comportamiento de un LLM base, no han sido entrenados para ninguna tarea especifica, ni para conversacion, ni para responder preguntas. Sólo presentan el comportamiento primitivo de un LLM, que es generar la siguiente palabra, a partir del prompt que se le indica genera la siguiente palabra,
-y continua generando palabras que en este caso coinciden en función del contexto con lo que se habia puesto anteriormente
+---Loads a tokenizer and model from the t5-base checkpoint.
+---Tokenizes a given prompt.
+---Generates text without any fine-tuning (general-purpose text generation).
+---Prints the generated output.
 
 #### 2. Selección de un Fine-tuned LLM
+In this case study, we will make the base model Flan-T5 (google/flan-t5-base).
 
-En este caso práctico, vamos a hacer del modelo base Flan-T5 (google/flan-t5-base).
+These models are based on pre-trained T5 (Raffel et al., 2020) and have been fine-tuned to improve performance on over 1,000 additional tasks and to support multiple languages: https://huggingface.co/google/flan-t5-base#training-details
 
-Estos modelos se basan en T5 preentrenados (Raffel et al., 2020) y se les ha realizado fine-tuning para mejorar el rendimiento en más de 1.000 tareas adicionales y para soportar varios idiomas: https://huggingface.co/google/flan-t5-base#training-details
+---Loads a tokenizer and model from the google/flan-t5-base checkpoint.
+---Tokenizes the same prompt.
+---Generates text based on fine-tuned knowledge (e.g., question answering).
+---Prints the generated output.
 
 #### 3. Selection of a Fine-tuned LLM of 1 billion parameters
 
-En este último apartado vamos a hacer uso de Flan-T5-Large que tiene un total de 1.200 millones de parámetros: https://huggingface.co/google/flan-t5-large
+In this last section we will make use of Flan-T5-Large, which has a total of 1.2 billion parameters: https://huggingface.co/google/flan-t5-large.
+
+---Loads a tokenizer and model from the google/flan-t5-large checkpoint.
+---Tokenizes the same prompt.
+---Generates text using the larger fine-tuned model with more parameters.
+---Prints the generated output.
 
 ### 5️⃣ Instruction_Fine_tuning_LLM_Base
 
